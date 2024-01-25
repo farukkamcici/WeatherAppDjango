@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main>
+
+    <div class="album py-5 bg-body-tertiary">
+        <div class="container">
+
+            <div class="row row-cols-1 row-cols-md-2 g-3">
+                {% for city_info in city_data %}
+                    <div class="col">
+                        <div class="card mb-3 container" style="width: 400px; margin-top: 20px">
+                            <div class="row g-0">
+                                <div class="col-md-4 d-flex justify-content-center align-items-center">
+                                    <img src="{{ city_info.curr_cond_icon }}" class="img-fluid rounded-start" alt="...">
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body text-center">
+                                        <h4 class="card-title">{{ city_info.name }}</h4>
+                                        <p class="card-text">{{ city_info.curr_temp_c }} C° | {{ city_info.curr_cond_desc }}</p>
+                                        <p class="card-text"></p>
+                                        <p class="card-text"><small class="text-body-secondary " style="font-style: italic;">Last update <br> at {{ city_info.last_update }}</small></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+        </div>
+    </div>
+
+</main>
+{% endblock %}
