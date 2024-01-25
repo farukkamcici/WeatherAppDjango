@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mx-auto text-center" style="margin: 100px; width: 50%;">
+    <main class="form-signin w-100 m-auto">
+        <form method="post" action="">
+          {% csrf_token %}
+          <h1 class="h3 mb-3 fw-normal">Sign Up</h1>
+          <div class="form-floating pholder" style="margin: 10px;">
+            {{ form.username }}
+            <label for="{{ form.username.id_for_label }} ">Enter your username</label>
+          </div>
+          <div class="form-floating pholder" style="margin: 10px;">
+            {{ form.password1 }}
+            <label for="{{ form.password1.id_for_label }}">Enter your password</label>
+          </div>
+          <div class="form-floating pholder" style="margin: 10px;">
+            {{ form.password2 }}
+            <label for="{{ form.password2.id_for_label }}">Confirm your password</label>
+          </div>
+          
+          <input type="submit" class="submit form-control bg-primary text-white " value="Sign up">
+          
+        </form>
+      </main>
+</div>
+
+{% endblock %}

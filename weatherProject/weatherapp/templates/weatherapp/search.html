@@ -5,7 +5,7 @@
   {% csrf_token %}
   <div class="container" style="flex-grow: 1;margin-top: 15px; ">
     <input type="text" class="form-control mx-auto" style="width: 70%;" placeholder="Search for a city..." name="searched_city" id="searched_city">
-    <button type="submit" style="margin-top: 10px; width: 20%;" class=" btn btn-primary">Search</button>
+    <button type="submit" style="margin-top: 20px; width: 20%;" class=" btn btn-primary">Search</button>
   </div>
 </form>
 
@@ -13,18 +13,20 @@
 
 
 
-<div class="card mb-3 container" style="max-width: 300px; margin-top:60px">
+<div class="card mb-3 container" style="width: 400px; margin-top: 50px">
   <div class="row g-0">
-    <div class="col-md-4 d-flex justify-content-center align-items-center">
-      <img src="{{city_info.curr_cond_icon}}" class="img-fluid rounded-start" alt="...">
-    </div>
-    <div class="col-md-8">
-      <div class="card-body text-center">
-        <h4 class="card-title">{{city_info.name}}</h4>
-        <p class="card-text">{{ city_info.curr_temp_c }} C° | {{ city_info.curr_cond_desc }}</p>
-        <p class="card-text"><small class="text-body-secondary " style="font-style: italic;">Last update <br> at {{city_info.last_update}}</small></p>
+      <div class="col-md-4 d-flex justify-content-center align-items-center">
+          <img src="{{ city_info.curr_cond_icon }}" class="img-fluid rounded-start" alt="...">
       </div>
-    </div>
+      <div class="col-md-8">
+          <div class="card-body text-center">
+              <h4 class="card-title">{{ city_info.name }}</h4>
+              <h6 class="card-text">{{ city_info.country }}</h6> 
+              <p class="card-text">{{ city_info.curr_temp_c }} C° | {{ city_info.curr_cond_desc }}</p>
+              <p class="card-text"></p>
+              <p class="card-text"><small class="text-body-secondary " style="font-style: italic;">Last update <br> at {{ city_info.last_update }}</small></p>
+          </div>
+      </div>
   </div>
 </div>
 
