@@ -10,12 +10,22 @@
         height: 28px; /* Adjust the max height as needed */
         
     }
+
+    .card {
+        height: 670px;
+    }
 </style>
 
-<div class="container mt-5">
+{% if city_error %}
+<div class="container text-center mx-auto mt-5">
+    <h4 class="text-danger">{{ city_error}}</h4>
+</div>
+
+{% else %}
+<div class="container mt-4">
     <div class="row">
         <div class="col-md-4 mb-3">
-            <div class="card p-3" style="height: 600px;">
+            <div class="card p-3 text-center" >
                 <div class="row g-0">
                     <div class="col-md-3 d-flex justify-content-center align-items-center">
                         <img src="{{ city_info_days.icon_2 }}" class="img-fluid rounded-start weather-icon" alt="Weather Icon">
@@ -23,6 +33,7 @@
                     <div class="col-md-8">
                         <div class="card-body text-center">
                             <h4 class="card-title">{{ city_info_days.date_1 }}</h4>
+                            <hr>
                             <h6 class="card-text">{{ city_info.name }} | {{ city_info.country }}</h6> 
                             <div class="container text-center">
                                 <h6 class="card-text">{{ city_info_days.avg_temp_1 }} C° | {{ city_info_days.text_1 }}</h6>
@@ -53,7 +64,7 @@
 
                     <div class="col-md-4 d-flex align-items-center justify-content-center">
                         <div class="card-body text-center">
-                            <h5 class="card-title">@09:00</h5>
+                            <h5 class="card-title">@12:00</h5>
                         </div>
                     </div>
                     
@@ -83,11 +94,14 @@
                     <div class="col-md-4 d-flex align-items-center justify-content-center">
                         <img src="{{ city_info_hours.icon02 }}" class="img-fluid rounded-start weather-icon" alt="Weather Icon">
                     </div>
+                    <hr>
+                    <p class="card-text"><small class="text-body-secondary " style="font-style: italic;">Last update  at {{ city_info.last_update }}</small></p>
+
                 </div>
             </div>
         </div>
         <div class="col-md-4 mb-3">
-            <div class="card p-3" style="height: 600px;">
+            <div class="card p-3 text-center" >
                 <div class="row g-0">
                     <div class="col-md-3 d-flex justify-content-center align-items-center">
                         <img src="{{ city_info_days.icon_2 }}" class="img-fluid rounded-start weather-icon" alt="Weather Icon">
@@ -95,6 +109,7 @@
                     <div class="col-md-8">
                         <div class="card-body text-center">
                             <h4 class="card-title">{{ city_info_days.date_2 }}</h4>
+                            <hr>
                             <h6 class="card-text">{{ city_info.name }} | {{ city_info.country }}</h6> 
                             <div class="container text-center">
                                 <h6 class="card-text">{{ city_info_days.avg_temp_2 }} C° | {{ city_info_days.text_2 }}</h6>
@@ -125,7 +140,7 @@
 
                     <div class="col-md-4 d-flex align-items-center justify-content-center">
                         <div class="card-body text-center">
-                            <h5 class="card-title">@09:00</h5>
+                            <h5 class="card-title">@12:00</h5>
                         </div>
                     </div>
                     
@@ -155,11 +170,13 @@
                     <div class="col-md-4 d-flex align-items-center justify-content-center">
                         <img src="{{ city_info_hours.icon12 }}" class="img-fluid rounded-start weather-icon" alt="Weather Icon">
                     </div>
+                    <hr>
+                    <p class="card-text"><small class="text-body-secondary " style="font-style: italic;">Last update  at {{ city_info.last_update }}</small></p>
                 </div>
             </div>
         </div>
         <div class="col-md-4 mb-3">
-            <div class="card p-3" style="height: 600px;">
+            <div class="card p-3 text-center" ">
                 <div class="row g-0">
                     <div class="col-md-3 d-flex justify-content-center align-items-center">
                         <img src="{{ city_info_days.icon_2 }}" class="img-fluid rounded-start weather-icon" alt="Weather Icon">
@@ -167,6 +184,7 @@
                     <div class="col-md-8">
                         <div class="card-body text-center">
                             <h4 class="card-title">{{ city_info_days.date_3 }}</h4>
+                            <hr>
                             <h6 class="card-text">{{ city_info.name }} | {{ city_info.country }}</h6> 
                             <div class="container text-center">
                                 <h6 class="card-text">{{ city_info_days.avg_temp_3}} C° | {{ city_info_days.text_3 }}</h6>
@@ -197,7 +215,7 @@
 
                     <div class="col-md-4 d-flex align-items-center justify-content-center">
                         <div class="card-body text-center">
-                            <h5 class="card-title">@09:00</h5>
+                            <h5 class="card-title">@12:00</h5>
                         </div>
                     </div>
                     
@@ -227,10 +245,14 @@
                     <div class="col-md-4 d-flex align-items-center justify-content-center">
                         <img src="{{ city_info_hours.icon22 }}" class="img-fluid rounded-start weather-icon" alt="Weather Icon">
                     </div>
+                    <hr>
+                    <p class="card-text"><small class="text-body-secondary " style="font-style: italic;">Last update  at {{ city_info.last_update }}</small></p>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+{% endif %}
 
 {% endblock %}

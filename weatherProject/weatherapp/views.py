@@ -1,17 +1,28 @@
 from django.shortcuts import render,redirect
-from django.urls import reverse_lazy,reverse
+from django.urls import reverse_lazy
 import requests
 import pytz
-from datetime import date,datetime,timedelta
-from tzlocal import get_localzone
+from datetime import datetime,timedelta
 from django.contrib.auth import login, authenticate 
-from django.contrib import messages
 from .forms import SignUpForm
 
 
 
 
 # Create your views here.
+def timezone_conv(last_upd_loc, loc_tz_str):
+    date_format = '%Y-%m-%d %H:%M'
+    last_upd_dt = datetime.strptime(last_upd_loc, date_format)
+
+    loc_tz = pytz.timezone(loc_tz_str)
+    last_upd_dt_loc = loc_tz.localize(last_upd_dt)
+
+    new_tz = pytz.timezone('Europe/Moscow')
+    last_update = last_upd_dt_loc.astimezone(new_tz)
+    last_update_conv_str = last_update.strftime(date_format)
+
+    return last_update_conv_str
+
 def get_city_info(city):
     api_key = "7ed79061f55449a1a76205741242401"
     url = f"http://api.weatherapi.com/v1/current.json?key={api_key}&q={city}"
@@ -80,7 +91,7 @@ def get_city_info_hourly(city):
             for j, hour in enumerate(target_hours_list):
                 date_hour = f"{day} {hour}"
                 target_hour_data = next((time for time in day_data['hour'] if time['time'] == date_hour), None)
-                print(target_hour_data)
+                #print(target_hour_data)
 
                 if target_hour_data:
                     entry_data = {
@@ -94,16 +105,11 @@ def get_city_info_hourly(city):
         else:
             print(f"No data found for {day}")
 
-    print(entry_dict)
+    #print(entry_dict)
     return entry_dict
 
-    
-    
-    
 
-
-
-def get_city_info_future(city):
+def get_city_info_days(city):
     api_key = "7ed79061f55449a1a76205741242401"
     url = f"http://api.weatherapi.com/v1/forecast.json?key={api_key}&q={city}&days=3"
     response = requests.get(url).json()  
@@ -147,20 +153,6 @@ def get_city_info_future(city):
     return result
 
 
-def timezone_conv(last_upd_loc, loc_tz_str):
-    date_format = '%Y-%m-%d %H:%M'
-    last_upd_dt = datetime.strptime(last_upd_loc, date_format)
-
-    loc_tz = pytz.timezone(loc_tz_str)
-    last_upd_dt_loc = loc_tz.localize(last_upd_dt)
-
-    new_tz = pytz.timezone('Europe/Moscow')
-    last_update = last_upd_dt_loc.astimezone(new_tz)
-    last_update_conv_str = last_update.strftime(date_format)
-
-    return last_update_conv_str
-
-
 def home(request):
     cities = ["Istanbul", "London", "New York", "Tokyo", "Sydney", "Paris"]
     
@@ -177,17 +169,74 @@ def home(request):
         
 
 def search(request):
-        city=request.POST.get("searched_city")
+    if request.method == 'POST':
+        city = request.POST.get('searched_city', '').strip()
 
-        city_info=get_city_info(city)
-        city_info_days=get_city_info_future(city)
-        city_info_hours=get_city_info_hourly(city)
-        
-        context={"city_info":city_info,
-                 "city_info_days":city_info_days,
-                 "city_info_hours": city_info_hours,
+        if city == "":
+            error_message = 'Please enter a city before searching!'
+            context = {
+                "error_message": error_message,
+            }
+            return render(request, "weatherapp/search.html", context)
+
+        else:
+            try:
+                city_info = get_city_info(city)
+                city_info_days = get_city_info_days(city)
+                city_info_hours = get_city_info_hourly(city)
+
+                context = {
+                    "city_info": city_info,
+                    "city_info_days": city_info_days,
+                    "city_info_hours": city_info_hours,
+                    "city": city,
                 }
-        return render(request, "weatherapp/search.html",context)
+
+                return render(request, "weatherapp/search.html", context)
+            
+            except KeyError as e:
+                key_error= 'Please enter a valid city!'
+
+                context = {
+                    "key_error": key_error
+                }
+
+                return render(request, "weatherapp/search.html", context)
+
+    return render(request, "weatherapp/search.html")
+    
+
+def mycity(request):
+    try:
+        city=request.user.my_city
+
+        if city:
+            city_info=get_city_info(city)
+            city_info_days=get_city_info_days(city)
+            city_info_hours=get_city_info_hourly(city)
+                
+            context={"city_info_days":city_info_days,
+                    "city_info":city_info,
+                    "city_info_hours": city_info_hours,
+                    }
+            return render(request, "weatherapp/mycity.html",context)
+        
+        else:
+            raise ValueError("You do not have a registered city!")
+        
+    except ValueError as e:
+        city_error= str(e)
+        
+        context= {
+            "city_error": city_error
+        }
+        
+        return render(request, "weatherapp/mycity.html",context)
+
+    
+
+
+
 
 def signup(request):
     if request.user.is_anonymous:
@@ -197,7 +246,6 @@ def signup(request):
                 username=form.cleaned_data.get("username")
                 password=form.cleaned_data.get("password1")
                 form.save()
-                messages.success(request, "Your account is created succesfully!")
                 new_user=authenticate(username=username, password=password)
                 if new_user is not None:
                     login(request, new_user)
@@ -213,36 +261,6 @@ def signup(request):
     
     return render(request, "registration/signup.html", context)
 
-
-def mycity(request):
-    city=request.user.my_city
-
-    city_info=get_city_info(city)
-    city_info_days=get_city_info_future(city)
-    city_info_hours=get_city_info_hourly(city)
-    
-
-    def target_days_list():
-        local_timezone = pytz.timezone('Europe/Moscow')
-        today = datetime.now(tz=local_timezone)
-        tomorrow=today+ timedelta(days=1)
-        after_tomorrow=today+ timedelta(days=2)
-
-        today_str = today.strftime('%Y-%m-%d')
-        tomorrow_str = tomorrow.strftime('%Y-%m-%d')
-        after_tomorrow_str = after_tomorrow.strftime('%Y-%m-%d')
-
-        target_days=[today_str,tomorrow_str,after_tomorrow_str]
-        
-        return target_days
-    
-    target_days=target_days_list()
-        
-    context={"city_info_days":city_info_days,
-             "city_info":city_info,
-             "city_info_hours": city_info_hours,
-               }
-    return render(request, "weatherapp/mycity.html",context)
 
 
 
