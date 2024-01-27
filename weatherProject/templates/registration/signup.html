@@ -19,7 +19,11 @@
             {{ form.password2 }}
             <label for="{{ form.password2.id_for_label }}">Confirm your password</label>
           </div>
-          
+          <div class="form-floating pholder" style="margin: 10px;">
+            {{ form.my_city }}
+            <label for="{{ form.password2.id_for_label }}">Enter your city</label>
+          </div>
+
           <input type="submit" class="submit form-control bg-primary text-white " value="Sign up">
           
         </form>

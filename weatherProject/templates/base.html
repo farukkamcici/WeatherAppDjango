@@ -15,8 +15,15 @@
         <div class="container">
           <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-              <li><a href="{%url 'weatherapp:grid'%}" class="nav-link px-2 text-secondary">Home</a></li>
+              {% if user.is_anonymous %}
+              <li><a href="{%url 'weatherapp:home'%}" class="nav-link px-2 text-secondary">Home</a></li>
               <li><a href="{%url 'weatherapp:search'%}" class="nav-link px-2 text-white">Search</a></li>
+              {% else %}
+              <li><a href="{%url 'weatherapp:home'%}" class="nav-link px-2 text-secondary">Home</a></li>
+              <li><a href="{%url 'weatherapp:search'%}" class="nav-link px-2 text-white">Search</a></li>
+              <li><a href="{%url 'weatherapp:mycity'%}" class="nav-link px-2 text-white">My City</a></li>
+              {% endif %}
+              
             </ul>
 
             <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
@@ -27,6 +34,7 @@
                 {% else %}
                 <li><a href="{%url 'login'%}" class="nav-link px-2 text-white">Account</a></li>
                 <li><a href="{%url 'logout'%}?next=/" class="nav-link px-2 text-white">Logout</a></li>
+
                 {% endif %}
               </ul>
             </div>

@@ -1,11 +1,11 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser, Group, Permission
+
+
+
 
 # Create your models here.
-class City (models.Model):
-    name= models.CharField(max_length=15)
+class CustomUser(AbstractUser):
+    my_city=models.CharField(max_length=25, null=True)
 
-    def __str__(self) -> str:
-        return self.name
-    
-    class Meta:
-        app_label= "weatherapp"
+
