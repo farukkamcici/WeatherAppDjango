@@ -1,47 +1,42 @@
 {% extends 'base.html' %}
 
-
 {% block content %}
 <style>
     .extended-card {
-    height: 310px; /* Adjust the height as needed */
+        height: 310px; /* Adjust the height as needed */
     }
 
     .pad-card {
-        padding:5px;
+        padding: 5px;
     }
-
-
 </style>
 
 <main>
     <div class="album py-5 bg-body-tertiary">
         <div class="container">
-            <div class="row row-cols-2 row-cols-md-3 g-3  mx-auto  mt-2 mb-2">
+            <div class="row row-cols-2 row-cols-md-3 g-3 mx-auto mt-2 mb-2">
                 {% for city_dict in city_data %}
                     <div class="col">
-                        <div class="card mb-4 extended-card ">
+                        <div class="card mb-4 extended-card">
                             <div class="row g-0 pad-card">
                                 <div class="col-md-3 d-flex justify-content-center align-items-center">
                                     <img src="{{ city_dict.city_info_days.icon_1 }}" class="img-fluid rounded-start weather-icon" alt="Weather Icon">
                                 </div>
                                 <div class="col-md-8">
-                                    <div class="card-body text-center ">
-                                        <h5 class="card-text">{{ city_dict.city_info.name }}</h5> 
+                                    <div class="card-body text-center">
+                                        <h5 class="card-text">{{ city_dict.city_info.name }}</h5>
                                         <p class="card-text">{{ city_dict.city_info.country }}</p>
-                                        <div class="container ">
+                                        <div class="container">
                                             <h6 class="card-text">{{ city_dict.city_info_days.avg_temp_1 }} C° </h6>
                                             <h6 class="card-text">{{ city_dict.city_info_days.text_1 }}</h6>
 
-                                            <p class="card-text">Min: {{ city_dict.city_info_days.min_temp_1}} C° | Max: {{ city_dict.city_info_days.max_temp_1}}
-                                            <p class="card-text">Humidity: {{ city_dict.city_info_days.avghumidity_1}}%</p> 
-                                            <p class="card-text">Chance of rain: {{ city_dict.city_info_days.rain_chance_1}}%</p> 
+                                            <p class="card-text">Min: {{ city_dict.city_info_days.min_temp_1 }} C° | Max: {{ city_dict.city_info_days.max_temp_1 }}</p>
+                                            <p class="card-text">Humidity: {{ city_dict.city_info_days.avghumidity_1 }}%</p>
+                                            <p class="card-text">Chance of rain: {{ city_dict.city_info_days.rain_chance_1 }}%</p>
                                         </div>
                                         <br>
 
-                                        <p class="card-text"><small  style="font-style: italic;">Last update  at {{ city_dict.city_info.last_update }}</small></p>
-
-
+                                        <p class="card-text"><small style="font-style: italic;">Last update at {{ city_dict.city_info.last_update }}</small></p>
                                     </div>
                                 </div>
                             </div>

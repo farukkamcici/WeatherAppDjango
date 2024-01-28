@@ -39,25 +39,25 @@
 </div>
 
 
-{% if city_info %}
+{% if cities_data %}
     <div class="container">
         <div class="row">
             <div class="col-md-4 mb-3 text-center  mx-auto">
                 <div class="card p-1">
                     <div class="row g-0">
                         <div class="col-md-3 d-flex justify-content-center align-items-center">
-                            <img src="{{ city_info.curr_cond_icon }}" class="img-fluid rounded-start weather-icon" alt="Weather Icon">
+                            <img src="{{ cities_data.city_data.city_info.curr_cond_icon }}" class="img-fluid rounded-start weather-icon" alt="Weather Icon">
                         </div>
                         <div class="col-md-8">
                             <div class="card-body text-center">
-                                <h4 class="card-title">{{ city_info_days.date_1 }}</h4>
+                                <h4 class="card-title">{{ cities_data.city_data.city_info_days.date_1 }}</h4>
                                 <hr>
-                                <h6 class="card-text">{{ city_info.name }} | {{city_info.country}}</h6> 
+                                <h6 class="card-text">{{ cities_data.city_data.city_info.name }} | {{cities_data.city_data.city_info.country}}</h6> 
                                 <div class="container text-center">
-                                    <h6 class="card-text">{{ city_info_days.avg_temp_1 }} C° | {{ city_info_days.text_1 }}</h6>
-                                    <p class="card-text">Min: {{ city_info_days.min_temp_1}} C° | Max: {{ city_info_days.max_temp_1}} C°</p> 
-                                    <p class="card-text">Humidity: {{ city_info_days.avghumidity_1}}%</p> 
-                                    <p class="card-text">Chance of rain: {{ city_info_days.rain_chance_1}}%</p> 
+                                    <h6 class="card-text">{{ cities_data.city_data.city_info_days.avg_temp_1 }} C° | {{ cities_data.city_data.city_info_days.text_1 }}</h6>
+                                    <p class="card-text">Min: {{ cities_data.city_data.city_info_days.min_temp_1}} C° | Max: {{ cities_data.city_data.city_info_days.max_temp_1}} C°</p> 
+                                    <p class="card-text">Humidity: {{ cities_data.city_data.city_info_days.avghumidity_1}}%</p> 
+                                    <p class="card-text">Chance of rain: {{ cities_data.city_data.city_info_days.rain_chance_1}}%</p> 
                                 </div>
                             </div>
                         </div>
@@ -71,12 +71,12 @@
                         
                         <div class="col-md-4 text-center d-flex align-items-center">
                             <div class="card-body text-center d-flex flex-column">
-                                <h6 class="card-title">{{ city_info_hours.temperature00 }} C°</h6>
-                                <h6 class="card-text">{{ city_info_hours.text00 }}</h6>
+                                <h6 class="card-title">{{ cities_data.city_data.city_info_hours.temperature00 }} C°</h6>
+                                <h6 class="card-text">{{ cities_data.city_data.city_info_hours.text00 }}</h6>
                             </div>
                         </div>
                         <div class="col-md-4 d-flex align-items-center justify-content-center">
-                            <img src="{{ city_info_hours.icon00 }}" class="img-fluid rounded-start weather-icon" alt="Weather Icon">
+                            <img src="{{ cities_data.city_data.city_info_hours.icon00 }}" class="img-fluid rounded-start weather-icon" alt="Weather Icon">
                         </div>
                         <hr>
             
@@ -88,12 +88,12 @@
                         
                         <div class="col-md-4 text-center d-flex align-items-center">
                             <div class="card-body text-center d-flex flex-column">
-                                <h6 class="card-title">{{ city_info_hours.temperature01 }} C°</h6>
-                                <h6 class="card-text">{{ city_info_hours.text01 }}</h6>
+                                <h6 class="card-title">{{ cities_data.city_data.city_info_hours.temperature01 }} C°</h6>
+                                <h6 class="card-text">{{ cities_data.city_data.city_info_hours.text01 }}</h6>
                             </div>
                         </div>
                         <div class="col-md-4 d-flex align-items-center justify-content-center">
-                            <img src="{{ city_info_hours.icon01 }}" class="img-fluid rounded-start weather-icon" alt="Weather Icon">
+                            <img src="{{ cities_data.city_data.city_info_hours.icon01 }}" class="img-fluid rounded-start weather-icon" alt="Weather Icon">
                         </div>
                         <hr>
             
@@ -105,15 +105,15 @@
                         
                         <div class="col-md-4 text-center d-flex align-items-center">
                             <div class="card-body text-center d-flex flex-column">
-                                <h6 class="card-title">{{ city_info_hours.temperature02 }} C°</h6>
-                                <h6 class="card-text">{{ city_info_hours.text02 }}</h6>
+                                <h6 class="card-title">{{ cities_data.city_data.city_info_hours.temperature02 }} C°</h6>
+                                <h6 class="card-text">{{ cities_data.city_data.city_info_hours.text02 }}</h6>
                             </div>
                         </div>
                         <div class="col-md-4 d-flex align-items-center justify-content-center">
-                            <img src="{{ city_info_hours.icon02 }}" class="img-fluid rounded-start weather-icon" alt="Weather Icon">
+                            <img src="{{ cities_data.city_data.city_info_hours.icon02 }}" class="img-fluid rounded-start weather-icon" alt="Weather Icon">
                         </div>
                         <hr>
-                        <p class="card-text"><small class="text-body-secondary " style="font-style: italic;">Last update  at {{ city_info.last_update }}</small></p>
+                        <p class="card-text"><small class="text-body-secondary " style="font-style: italic;">Last update  at {{ cities_data.city_data.city_info.last_update }}</small></p>
             
                     </div>
                 </div>
@@ -122,18 +122,18 @@
                 <div class="card p-1">
                     <div class="row g-0">
                         <div class="col-md-3 d-flex justify-content-center align-items-center">
-                            <img src="{{ city_info.curr_cond_icon }}" class="img-fluid rounded-start weather-icon" alt="Weather Icon">
+                            <img src="{{ cities_data.city_data.city_info.curr_cond_icon }}" class="img-fluid rounded-start weather-icon" alt="Weather Icon">
                         </div>
                         <div class="col-md-8">
                             <div class="card-body text-center">
-                                <h4 class="card-title">{{ city_info_days.date_2 }}</h4>
+                                <h4 class="card-title">{{ cities_data.city_data.city_info_days.date_2 }}</h4>
                                 <hr>
-                                <h6 class="card-text">{{ city_info.name }} | {{city_info.country}}</h6> 
+                                <h6 class="card-text">{{ cities_data.city_data.city_info.name }} | {{cities_data.city_data.city_info.country}}</h6> 
                                 <div class="container text-center">
-                                    <h6 class="card-text">{{ city_info_days.avg_temp_2 }} C° | {{ city_info_days.text_2 }}</h6>
-                                    <p class="card-text">Min: {{ city_info_days.min_temp_2}} C° | Max: {{ city_info_days.max_temp_2}} C°</p> 
-                                    <p class="card-text">Humidity: {{ city_info_days.avghumidity_2}}%</p> 
-                                    <p class="card-text">Chance of rain: {{ city_info_days.rain_chance_2}}%</p> 
+                                    <h6 class="card-text">{{ cities_data.city_data.city_info_days.avg_temp_2 }} C° | {{ cities_data.city_data.city_info_days.text_2 }}</h6>
+                                    <p class="card-text">Min: {{ cities_data.city_data.city_info_days.min_temp_2}} C° | Max: {{ cities_data.city_data.city_info_days.max_temp_2}} C°</p> 
+                                    <p class="card-text">Humidity: {{ cities_data.city_data.city_info_days.avghumidity_2}}%</p> 
+                                    <p class="card-text">Chance of rain: {{ cities_data.city_data.city_info_days.rain_chance_2}}%</p> 
                                 </div>
                             </div>
                         </div>
@@ -147,12 +147,12 @@
                         
                         <div class="col-md-4 text-center d-flex align-items-center">
                             <div class="card-body text-center d-flex flex-column">
-                                <h6 class="card-title">{{ city_info_hours.temperature10 }} C°</h6>
-                                <h6 class="card-text">{{ city_info_hours.text10 }}</h6>
+                                <h6 class="card-title">{{ cities_data.city_data.city_info_hours.temperature10 }} C°</h6>
+                                <h6 class="card-text">{{ cities_data.city_data.city_info_hours.text10 }}</h6>
                             </div>
                         </div>
                         <div class="col-md-4 d-flex align-items-center justify-content-center">
-                            <img src="{{ city_info_hours.icon10 }}" class="img-fluid rounded-start weather-icon" alt="Weather Icon">
+                            <img src="{{ cities_data.city_data.city_info_hours.icon10 }}" class="img-fluid rounded-start weather-icon" alt="Weather Icon">
                         </div>
                         <hr>
             
@@ -164,12 +164,12 @@
                         
                         <div class="col-md-4 text-center d-flex align-items-center">
                             <div class="card-body text-center d-flex flex-column">
-                                <h6 class="card-title">{{ city_info_hours.temperature11 }} C°</h6>
-                                <h6 class="card-text">{{ city_info_hours.text11 }}</h6>
+                                <h6 class="card-title">{{ cities_data.city_data.city_info_hours.temperature11 }} C°</h6>
+                                <h6 class="card-text">{{ cities_data.city_data.city_info_hours.text11 }}</h6>
                             </div>
                         </div>
                         <div class="col-md-4 d-flex align-items-center justify-content-center">
-                            <img src="{{ city_info_hours.icon11 }}" class="img-fluid rounded-start weather-icon" alt="Weather Icon">
+                            <img src="{{ cities_data.city_data.city_info_hours.icon11 }}" class="img-fluid rounded-start weather-icon" alt="Weather Icon">
                         </div>
                         <hr>
             
@@ -181,15 +181,15 @@
                         
                         <div class="col-md-4 text-center d-flex align-items-center">
                             <div class="card-body text-center d-flex flex-column">
-                                <h6 class="card-title">{{ city_info_hours.temperature12 }} C°</h6>
-                                <h6 class="card-text">{{ city_info_hours.text12 }}</h6>
+                                <h6 class="card-title">{{ cities_data.city_data.city_info_hours.temperature12 }} C°</h6>
+                                <h6 class="card-text">{{ cities_data.city_data.city_info_hours.text12 }}</h6>
                             </div>
                         </div>
                         <div class="col-md-4 d-flex align-items-center justify-content-center">
-                            <img src="{{ city_info_hours.icon12 }}" class="img-fluid rounded-start weather-icon" alt="Weather Icon">
+                            <img src="{{ cities_data.city_data.city_info_hours.icon12 }}" class="img-fluid rounded-start weather-icon" alt="Weather Icon">
                         </div>
                         <hr>
-                        <p class="card-text"><small class="text-body-secondary " style="font-style: italic;">Last update  at {{ city_info.last_update }}</small></p>
+                        <p class="card-text"><small class="text-body-secondary " style="font-style: italic;">Last update  at {{ cities_data.city_data.city_info.last_update }}</small></p>
             
                     </div>
                 </div>
@@ -198,18 +198,18 @@
                 <div class="card p-1">
                     <div class="row g-0">
                         <div class="col-md-3 d-flex justify-content-center align-items-center">
-                            <img src="{{ city_info.curr_cond_icon }}" class="img-fluid rounded-start weather-icon" alt="Weather Icon">
+                            <img src="{{ cities_data.city_data.city_info.curr_cond_icon }}" class="img-fluid rounded-start weather-icon" alt="Weather Icon">
                         </div>
                         <div class="col-md-8">
                             <div class="card-body text-center">
-                                <h4 class="card-title">{{ city_info_days.date_3 }}</h4>
+                                <h4 class="card-title">{{ cities_data.city_data.city_info_days.date_3 }}</h4>
                                 <hr>
-                                <h6 class="card-text">{{ city_info.name }} | {{city_info.country}}</h6>  
+                                <h6 class="card-text">{{ cities_data.city_data.city_info.name }} | {{cities_data.city_data.city_info.country}}</h6>  
                                 <div class="container text-center">
-                                    <h6 class="card-text">{{ city_info_days.avg_temp_3 }} C° | {{ city_info_days.text_3 }}</h6>
-                                    <p class="card-text">Min: {{ city_info_days.min_temp_3}} C° | Max: {{ city_info_days.max_temp_3}} C°</p> 
-                                    <p class="card-text">Humidity: {{ city_info_days.avghumidity_3}}%</p> 
-                                    <p class="card-text">Chance of rain: {{ city_info_days.rain_chance_3}}%</p> 
+                                    <h6 class="card-text">{{ cities_data.city_data.city_info_days.avg_temp_3 }} C° | {{ cities_data.city_data.city_info_days.text_3 }}</h6>
+                                    <p class="card-text">Min: {{ cities_data.city_data.city_info_days.min_temp_3}} C° | Max: {{ cities_data.city_data.city_info_days.max_temp_3}} C°</p> 
+                                    <p class="card-text">Humidity: {{ cities_data.city_data.city_info_days.avghumidity_3}}%</p> 
+                                    <p class="card-text">Chance of rain: {{ cities_data.city_data.city_info_days.rain_chance_3}}%</p> 
                                 </div>
                             </div>
                         </div>
@@ -223,12 +223,12 @@
                         
                         <div class="col-md-4 text-center d-flex align-items-center">
                             <div class="card-body text-center d-flex flex-column">
-                                <h6 class="card-title">{{ city_info_hours.temperature20 }} C°</h6>
-                                <h6 class="card-text">{{ city_info_hours.text20 }}</h6>
+                                <h6 class="card-title">{{ cities_data.city_data.city_info_hours.temperature20 }} C°</h6>
+                                <h6 class="card-text">{{ cities_data.city_data.city_info_hours.text20 }}</h6>
                             </div>
                         </div>
                         <div class="col-md-4 d-flex align-items-center justify-content-center">
-                            <img src="{{ city_info_hours.icon20 }}" class="img-fluid rounded-start weather-icon" alt="Weather Icon">
+                            <img src="{{ cities_data.city_data.city_info_hours.icon20 }}" class="img-fluid rounded-start weather-icon" alt="Weather Icon">
                         </div>
                         <hr>
             
@@ -240,12 +240,12 @@
                         
                         <div class="col-md-4 text-center d-flex align-items-center">
                             <div class="card-body text-center d-flex flex-column">
-                                <h6 class="card-title">{{ city_info_hours.temperature21 }} C°</h6>
-                                <h6 class="card-text">{{ city_info_hours.text21 }}</h6>
+                                <h6 class="card-title">{{ cities_data.city_data.city_info_hours.temperature21 }} C°</h6>
+                                <h6 class="card-text">{{ cities_data.city_data.city_info_hours.text21 }}</h6>
                             </div>
                         </div>
                         <div class="col-md-4 d-flex align-items-center justify-content-center">
-                            <img src="{{ city_info_hours.icon21 }}" class="img-fluid rounded-start weather-icon" alt="Weather Icon">
+                            <img src="{{ cities_data.city_data.city_info_hours.icon21 }}" class="img-fluid rounded-start weather-icon" alt="Weather Icon">
                         </div>
                         <hr>
             
@@ -257,15 +257,15 @@
                         
                         <div class="col-md-4 text-center d-flex align-items-center">
                             <div class="card-body text-center d-flex flex-column">
-                                <h6 class="card-title">{{ city_info_hours.temperature22 }} C°</h6>
-                                <h6 class="card-text">{{ city_info_hours.text22 }}</h6>
+                                <h6 class="card-title">{{ cities_data.city_data.city_info_hours.temperature22 }} C°</h6>
+                                <h6 class="card-text">{{ cities_data.city_data.city_info_hours.text22 }}</h6>
                             </div>
                         </div>
                         <div class="col-md-4 d-flex align-items-center justify-content-center">
-                            <img src="{{ city_info_hours.icon22 }}" class="img-fluid rounded-start weather-icon" alt="Weather Icon">
+                            <img src="{{ cities_data.city_data.city_info_hours.icon22 }}" class="img-fluid rounded-start weather-icon" alt="Weather Icon">
                         </div>
                         <hr>
-                        <p class="card-text"><small class="text-body-secondary " style="font-style: italic;">Last update  at {{ city_info.last_update }}</small></p>
+                        <p class="card-text"><small class="text-body-secondary " style="font-style: italic;">Last update  at {{ cities_data.city_data.city_info.last_update }}</small></p>
             
                     </div>
                 </div>
