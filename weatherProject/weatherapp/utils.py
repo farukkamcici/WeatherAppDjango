@@ -10,16 +10,17 @@ async def async_get_city_info(city):
     async with aiohttp.ClientSession() as session:
         async with session.get(url) as data:
             response = await data.json()
-
     return extract_city_info(response)
 
 async def async_get_city_info_days(city):
     api_key = "7ed79061f55449a1a76205741242401"
-    url = f"http://api.weatherapi.com/v1/forecast.json?key={api_key}&q={city}&days=3"
+    url = f"http://api.weatherapi.com/v1/forecast.json?key={api_key}&q={city}&days=4"
 
     async with aiohttp.ClientSession() as session:
         async with session.get(url) as data:
             response = await data.json()
+
+    print(response)
 
     return extract_city_info_days(response)
 
@@ -72,7 +73,7 @@ async def extract_city_info(response):
     }
 
 def extract_city_info_hourly(response):
-    target_days = target_days_list()
+    target_days = target_days_list(response)
 
     target_hours_list = ["03:00", "12:00", "21:00"]
     result = {}
@@ -105,15 +106,19 @@ def extract_city_info_hourly(response):
     return entry_dict
 
 def extract_city_info_days(response):
-    target_days = target_days_list()
+    target_days = target_days_list(response)
     result = {}
 
     for i, target_day in enumerate(target_days):
-        target_day_data = next((day for day in response['forecast']['forecastday'] if day['date'] == str(target_day)), None)
+        target_day_data = next((day for day in response.get('forecast', {}).get('forecastday', []) if day.get('date') == str(target_day)), {})
+        print(target_day_data)
+        date_str = target_day_data.get("date")
+        formatted_date = None
+        if date_str:
+            date_obj = datetime.strptime(date_str, '%Y-%m-%d')
+            formatted_date = date_obj.strftime('%d %b %a')
+
         target_day_dict = target_day_data.get('day', {})
-        date_str = target_day_data["date"]
-        date_obj = datetime.strptime(date_str, '%Y-%m-%d')
-        formatted_date = date_obj.strftime('%d %b %a')
 
         if target_day_dict:
             result[f"max_temp_{i + 1}"] = target_day_dict["maxtemp_c"]
@@ -127,9 +132,10 @@ def extract_city_info_days(response):
 
     return result
 
-def target_days_list():
-    local_timezone = pytz.timezone('Europe/Moscow')
-    today = datetime.now(tz=local_timezone)
+def target_days_list(response):
+    local_timezone = response.get("location").get("tz_id")
+    tz=pytz.timezone(local_timezone)
+    today = datetime.now(tz=tz)
     tomorrow = today + timedelta(days=1)
     after_tomorrow = today + timedelta(days=2)
 
