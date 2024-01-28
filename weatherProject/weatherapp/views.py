@@ -1,3 +1,5 @@
+from collections.abc import Callable, Iterable, Mapping
+from typing import Any
 from django.shortcuts import render,redirect
 from django.urls import reverse_lazy
 import requests
@@ -5,30 +7,15 @@ import pytz
 from datetime import datetime,timedelta
 from django.contrib.auth import login, authenticate 
 from .forms import SignUpForm
+from threading import Thread
+from .utils import timezone_conv
 
-
-
-
-# Create your views here.
-def timezone_conv(last_upd_loc, loc_tz_str):
-    date_format = '%Y-%m-%d %H:%M'
-    last_upd_dt = datetime.strptime(last_upd_loc, date_format)
-
-    loc_tz = pytz.timezone(loc_tz_str)
-    last_upd_dt_loc = loc_tz.localize(last_upd_dt)
-
-    new_tz = pytz.timezone('Europe/Moscow')
-    last_update = last_upd_dt_loc.astimezone(new_tz)
-    last_update_conv_str = last_update.strftime(date_format)
-
-    return last_update_conv_str
-
+        
 def get_city_info(city):
     api_key = "7ed79061f55449a1a76205741242401"
     url = f"http://api.weatherapi.com/v1/current.json?key={api_key}&q={city}"
     response = requests.get(url).json()  
     
-
     name = response["location"]["name"]
     country= response["location"]["country"]
     curr_temp_c = round(response["current"]["temp_c"])
@@ -154,18 +141,28 @@ def get_city_info_days(city):
 
 
 def home(request):
-    cities = ["Istanbul", "London", "New York", "Tokyo", "Sydney", "Paris"]
+    cities = ["Istanbul", "London", "New York", "Madrid", "Rome", "Paris"]
     
     city_data = []
     for city in cities:
         city_info = get_city_info(city)
-        city_data.append(city_info)
+        city_info_days = get_city_info_days(city)
+        city_info_hours = get_city_info_hourly(city)
+
+        city_dict = {
+            "city_info": city_info,
+            "city_info_days": city_info_days,
+            "city_info_hours": city_info_hours,
+        }
+
+        city_data.append(city_dict)
 
     context = {
-        "city_data": city_data,
+        "city_data": city_data
     }
 
     return render(request, "weatherapp/home.html", context)
+
         
 
 def search(request):
@@ -234,26 +231,26 @@ def mycity(request):
         return render(request, "weatherapp/mycity.html",context)
 
     
-
-
-
-
 def signup(request):
     if request.user.is_anonymous:
-        form = SignUpForm(request.POST)
-        if form.is_valid():
-            try:
-                username=form.cleaned_data.get("username")
-                password=form.cleaned_data.get("password1")
-                form.save()
-                new_user=authenticate(username=username, password=password)
-                if new_user is not None:
-                    login(request, new_user)
-                    return redirect(reverse_lazy("weatherapp:home"))
-            except Exception as e:
-                print(f"Error during sign-up: {e}")
+        if request.POST:
+            form = SignUpForm(request.POST)
+            if form.is_valid():
+                try:
+                    username=form.cleaned_data.get("username")
+                    password=form.cleaned_data.get("password1")
+                    form.save()
+                    new_user=authenticate(username=username, password=password)
+                    if new_user is not None:
+                        login(request, new_user)
+                        return redirect(reverse_lazy("weatherapp:home"))
+                except Exception as e:
+                    print(f"Error during sign-up: {e}")
+            else:
+                print(f"Form errors: {form.errors}")
         else:
-            print(f"Form errors: {form.errors}")
+            form = SignUpForm()
+
     else:
         return(redirect(reverse_lazy("weatherapp:home")))
     context = {"form": form}
