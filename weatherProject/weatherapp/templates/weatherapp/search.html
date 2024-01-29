@@ -15,16 +15,11 @@
     }
 </style>
 
-
-<div class="container mt-3 text-center " style="margin-left: 10%; margin-right:10% ;">
-    <form method="POST" class="row text-center mx-auto ">
-        {% csrf_token %}
-        
-            <input type="text" class="form-control" style="width: 80%;" placeholder="Search for a city..." name="searched_city" id="searched_city">
-            <button type="submit" class="btn btn-primary" style="width: 9.5%; margin-left: 0.5%;">Search</button>
-        
-    </form>
-</div>
+<form method="POST" class="row text-center mt-4 mx-auto justify-content-center" style="width: 70%; ">
+    {% csrf_token %}
+    <input type="text" class="form-control" style="width: 92%;" placeholder="Search for a city..." name="searched_city" id="searched_city">
+    <button type="submit" class="btn btn-primary" style="width: 7.5%; margin-left: 0.5%;">Search</button>
+</form>
 
 <div class="container text-center mx-auto mt-3">
     {% if error_message %}
