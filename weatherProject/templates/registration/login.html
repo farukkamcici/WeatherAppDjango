@@ -11,15 +11,15 @@
 
 {% if user.is_authenticated %}
   <div class="container d-flex justify-content-center  center">
-    <div class="card p-3" style="width: 25rem;">
+    <div class="card p-3 border-3" style="width: 25rem;">
       <h5 class="card-title fst-italic ">Username: {{user.username}}</h5>
       <hr>
       <h5 class="card-title fst-italic">City: {{user.my_city}}</h5>
       <hr>
       <h5 class="card-title fst-italic">Date joined: {{user.date_joined}}</h5>
       <div class="d-flex justify-content-evenly mt-4">
-        <a href="{%url 'weatherapp:chcity'%}" class="btn btn-primary">Change City</a>
-        <a href="{% url 'weatherapp:chpassword' %}" class="btn btn-primary" >Change Password</a>
+        <a href="{%url 'weatherapp:chcity'%}" class="btn btn-outline-danger">Change City</a>
+        <a href="{% url 'weatherapp:chpassword' %}" class="btn btn-outline-danger" >Change Password</a>
       </div>
     </div>
   </div>

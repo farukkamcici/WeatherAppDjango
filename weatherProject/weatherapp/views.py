@@ -139,20 +139,25 @@ def signup(request):
         if request.POST:
             form = SignUpForm(request.POST)
             if form.is_valid():
-                try:
-                    username = form.cleaned_data.get("username")
-                    password = form.cleaned_data.get("password1")
-                    city=form.cleaned_data.get("my_city").title()
-                    form.cleaned_data["my_city"]=city
-                    form.save()
-                    new_user = authenticate(username=username, password=password)
-                    if new_user is not None:
-                        login(request, new_user)
-                        return redirect(reverse_lazy("weatherapp:home"))
-                except Exception as e:
-                    print(f"Error during sign-up: {e}")
+                username = form.cleaned_data.get("username")
+                password = form.cleaned_data.get("password1")
+                city=form.cleaned_data.get("my_city").title()
+                form.cleaned_data["my_city"]=city
+                form.save()
+                new_user = authenticate(username=username, password=password)
+                if new_user is not None:
+                    login(request, new_user)
+                    return redirect(reverse_lazy("weatherapp:home"))
+            
             else:
-                print(f"Form errors: {form.errors}")
+                errors = list(form.errors.values())
+                context = {
+                    "form": form,
+                    "errors": errors,
+                    }
+    
+                return render(request, "registration/signup.html", context)
+                
         else:
             form = SignUpForm()
 
