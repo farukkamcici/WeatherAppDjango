@@ -3,8 +3,26 @@
 
 
 {% block content %}
+<style>
+  .center{
+    margin-top: 15%;
+  }
+</style>
+
 {% if user.is_authenticated %}
-        <h2 style="padding: 10px;">Welcome {{user.username}}!</h2>
+  <div class="container d-flex justify-content-center  center">
+    <div class="card p-3" style="width: 25rem;">
+      <h5 class="card-title fst-italic ">Username: {{user.username}}</h5>
+      <hr>
+      <h5 class="card-title fst-italic">City: {{user.my_city}}</h5>
+      <hr>
+      <h5 class="card-title fst-italic">Date joined: {{user.date_joined}}</h5>
+      <div class="d-flex justify-content-evenly mt-4">
+        <a href="{%url 'weatherapp:chcity'%}" class="btn btn-primary">Change City</a>
+        <a href="{% url 'weatherapp:chpassword' %}" class="btn btn-primary" >Change Password</a>
+      </div>
+    </div>
+  </div>
 
 {% else %}
   <div class="container mx-auto text-center" style="margin: 100px; width: 50%;" >
@@ -15,12 +33,12 @@
             
             <h1 class="h3 mb-3 fw-normal">Log in</h1>
             <div class="form-floating" style="margin: 10px;">
-              <input type="text" class="form-control" id="floatingInput" name="username">
+              <input type="text" class="form-control" id="floatingInput" name="username" placeholder="Enter your username">
               <label for="floatingInput">Username</label>
             </div>
 
             <div class="form-floating" style="margin: 10px;">
-              <input type="password" class="form-control" id="floatingPassword" name="password" >
+              <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Enter your password" >
               <label for="floatingPassword">Password</label>
             </div>
             <input type="submit" class="submit form-control bg-primary text-white" value="Log in">
@@ -30,5 +48,12 @@
         </main>
   </div>
 {% endif%}
+
+
+{% for message in messages %}
+  <div class="alert alert-success mt-4" role="alert">
+    {{ message }}
+  </div>
+{% endfor %}
 
 {% endblock %}

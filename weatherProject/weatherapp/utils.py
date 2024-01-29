@@ -1,7 +1,7 @@
 import pytz
 from datetime import datetime, timedelta
 import aiohttp
-import asyncio
+
 
 async def async_get_city_info(city):
     api_key = "7ed79061f55449a1a76205741242401"
@@ -10,7 +10,9 @@ async def async_get_city_info(city):
     async with aiohttp.ClientSession() as session:
         async with session.get(url) as data:
             response = await data.json()
+
     return extract_city_info(response)
+
 
 async def async_get_city_info_days(city):
     api_key = "7ed79061f55449a1a76205741242401"
@@ -20,9 +22,8 @@ async def async_get_city_info_days(city):
         async with session.get(url) as data:
             response = await data.json()
 
-    print(response)
-
     return extract_city_info_days(response)
+
 
 async def async_get_city_info_hourly(city):
     api_key = "7ed79061f55449a1a76205741242401"
@@ -33,6 +34,7 @@ async def async_get_city_info_hourly(city):
             response = await data.json()
 
     return extract_city_info_hourly(response)
+
 
 async def timezone_conv(last_upd_loc, loc_tz_str):
     date_format = '%Y-%m-%d %H:%M'
@@ -46,6 +48,7 @@ async def timezone_conv(last_upd_loc, loc_tz_str):
     last_update_conv_str = last_update.strftime(date_format)
 
     return last_update_conv_str
+
 
 async def extract_city_info(response):
     name = response["location"]["name"]
@@ -71,6 +74,7 @@ async def extract_city_info(response):
         "wind": wind,
         "feelslike": feelslike,
     }
+
 
 def extract_city_info_hourly(response):
     target_days = target_days_list(response)
@@ -105,13 +109,13 @@ def extract_city_info_hourly(response):
 
     return entry_dict
 
+
 def extract_city_info_days(response):
     target_days = target_days_list(response)
     result = {}
 
     for i, target_day in enumerate(target_days):
         target_day_data = next((day for day in response.get('forecast', {}).get('forecastday', []) if day.get('date') == str(target_day)), {})
-        print(target_day_data)
         date_str = target_day_data.get("date")
         formatted_date = None
         if date_str:
@@ -131,6 +135,7 @@ def extract_city_info_days(response):
             result[f"icon_{i + 1}"] = target_day_dict["condition"]["icon"]
 
     return result
+
 
 def target_days_list(response):
     local_timezone = response.get("location").get("tz_id")

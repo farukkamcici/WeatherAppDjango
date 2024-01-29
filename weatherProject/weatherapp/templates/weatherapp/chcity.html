@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mx-auto text-center" style="margin: 100px; width: 50%;">
+    <main class="form-signin w-100 m-auto">
+        <form method="post" action="">
+          {% csrf_token %}
+          <h1 class="h3 mb-3 fw-normal">Change your city</h1>
+          <div class="form-floating pholder" style="margin: 10px;">
+            {{ city_form.username }}
+            <label for="{{ city_form.username.id_for_label }} ">Enter your username</label>
+
+
+          </div>
+          <div class="form-floating pholder" style="margin: 10px;">
+            {{ city_form.my_city }}
+            <label for="{{ city_form.my_city.id_for_label }} ">Enter your new city</label>
+
+          </div>
+
+          <input type="submit" class="submit form-control bg-primary text-white " value="Confirm">
+          
+        </form>
+      </main>
+</div>
+
+{% endblock %}

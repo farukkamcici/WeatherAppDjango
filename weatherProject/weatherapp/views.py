@@ -2,16 +2,19 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.contrib.auth import login, authenticate
-from .forms import SignUpForm
+from .forms import SignUpForm, CityUpdate, PasswordUpdate
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import update_session_auth_hash
+from django.template.response import TemplateResponse
+from asgiref.sync import sync_to_async
+from django.contrib import messages
+import time
+import asyncio
 from .utils import (
     async_get_city_info,
     async_get_city_info_days,
     async_get_city_info_hourly,
 )
-from django.template.response import TemplateResponse
-import time
-import asyncio
-from asgiref.sync import sync_to_async
 
 
 async def home(request):
@@ -94,30 +97,32 @@ async def search(request):
 def get_user_city(request):
     return request.user.my_city
 
+
 async def mycity(request):
     try:
         city = await get_user_city(request)
 
 
         if city:
-            tasks_info = [await async_get_city_info(city)]
-            tasks_days = [async_get_city_info_days(city)]
-            tasks_hourly = [async_get_city_info_hourly(city)]
+            try:
+                tasks_info = [await async_get_city_info(city)]
+                tasks_days = [async_get_city_info_days(city)]
+                tasks_hourly = [async_get_city_info_hourly(city)]
 
-            results_info = await asyncio.gather(*tasks_info)
-            results_days = await asyncio.gather(*tasks_days)
-            results_hourly = await asyncio.gather(*tasks_hourly)
+                results_info = await asyncio.gather(*tasks_info)
+                results_days = await asyncio.gather(*tasks_days)
+                results_hourly = await asyncio.gather(*tasks_hourly)
 
-            for info, days, hourly in zip(results_info, results_days, results_hourly):
-                context = {
-                    "city_info": info,
-                    "city_info_days": days,
-                    "city_info_hours": hourly,
-                }
-                return TemplateResponse(request, "weatherapp/mycity.html", context)
+                for info, days, hourly in zip(results_info, results_days, results_hourly):
+                    context = {
+                        "city_info": info,
+                        "city_info_days": days,
+                        "city_info_hours": hourly,
+                    }
+                    return TemplateResponse(request, "weatherapp/mycity.html", context)
 
-        else:
-            raise ValueError("You do not have a registered city!")
+            except:
+                raise ValueError("You do not have a valid city, you can change it on the account tab!")
 
     except ValueError as e:
         city_error = str(e)
@@ -137,6 +142,8 @@ def signup(request):
                 try:
                     username = form.cleaned_data.get("username")
                     password = form.cleaned_data.get("password1")
+                    city=form.cleaned_data.get("my_city").title()
+                    form.cleaned_data["my_city"]=city
                     form.save()
                     new_user = authenticate(username=username, password=password)
                     if new_user is not None:
@@ -155,3 +162,48 @@ def signup(request):
     context = {"form": form}
     
     return render(request, "registration/signup.html", context)
+
+
+@login_required
+def chcity(request):
+    city_form = CityUpdate()
+
+    if request.method == 'POST':
+        city_form = CityUpdate(request.POST, instance=request.user)
+        if city_form.is_valid():
+            city=city_form.cleaned_data.get("my_city").title()
+            city_form.cleaned_data["my_city"]=city
+            city_form.save()
+            return redirect(reverse_lazy("weatherapp:mycity"))
+
+    context = {"city_form": city_form}
+    return render(request, "weatherapp/chcity.html", context)
+
+
+@login_required
+def chpassword(request):
+    password_form = PasswordUpdate(user= request.user)
+
+    if request.method == 'POST':
+        password_form = PasswordUpdate(user= request.user, data=request.POST)
+        if password_form.is_valid():
+            password_form.save()
+            update_session_auth_hash(request, password_form.user)
+            messages.success(request, 'Your password was successfully changed.')
+
+
+            return redirect(reverse_lazy("login"))
+        
+        else:
+            errors = list(password_form.errors.values())
+
+            context={
+                "password_form": password_form,
+                "errors": errors
+            }
+            return render(request, "registration/chpassword.html", context)
+
+    
+    context = {
+        "password_form": password_form}
+    return render(request, "registration/chpassword.html", context)
