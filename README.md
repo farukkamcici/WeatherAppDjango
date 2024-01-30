@@ -18,8 +18,10 @@ This web-based weather application allows users to check real-time weather infor
 
 ### Prerequisites
 
-- Python 3.x
+- Python 3.9.6
+- Pip
 - Git
+- [Weather API Key](https://www.weatherapi.com/)
 
 ### Setup
 
@@ -51,7 +53,7 @@ This web-based weather application allows users to check real-time weather infor
 
     #1.**Get your API key:**
     
-    Visit: https://www.weatherapi.com/
+    Please visit [Weather API website](https://www.weatherapi.com).
 
     #1. **Open config.py:**
     ```bash
