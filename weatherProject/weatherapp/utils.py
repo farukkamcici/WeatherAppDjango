@@ -1,10 +1,10 @@
 import pytz
 from datetime import datetime, timedelta
 import aiohttp
+from .config import api_key
 
 
 async def async_get_city_info(city):
-    api_key = "7ed79061f55449a1a76205741242401"
     url = f"http://api.weatherapi.com/v1/current.json?key={api_key}&q={city}"
 
     async with aiohttp.ClientSession() as session:
@@ -15,7 +15,6 @@ async def async_get_city_info(city):
 
 
 async def async_get_city_info_days(city):
-    api_key = "7ed79061f55449a1a76205741242401"
     url = f"http://api.weatherapi.com/v1/forecast.json?key={api_key}&q={city}&days=4"
 
     async with aiohttp.ClientSession() as session:
@@ -26,7 +25,6 @@ async def async_get_city_info_days(city):
 
 
 async def async_get_city_info_hourly(city):
-    api_key = "7ed79061f55449a1a76205741242401"
     url = f"http://api.weatherapi.com/v1/forecast.json?key={api_key}&q={city}&days=3"
 
     async with aiohttp.ClientSession() as session:

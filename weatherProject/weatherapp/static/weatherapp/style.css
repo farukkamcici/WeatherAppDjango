@@ -53,3 +53,11 @@ body {
 .weather-icon {
   width: 80px; /* Adjust the size as needed */
 }
+
+.center{
+  margin-top: 12%;
+}
+
+.width-30{
+  width: 30%;
+}
