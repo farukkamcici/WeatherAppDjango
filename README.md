@@ -85,6 +85,7 @@ This web-based weather application allows users to check real-time weather infor
 4. **Run Migrations:**
 
     ```bash
+    cd ..
     python manage.py migrate
     ```
 
