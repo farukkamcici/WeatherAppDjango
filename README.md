@@ -1,6 +1,12 @@
 # Weather Forecast Web Application
+<img width="1470" alt="Ekran Resmi 2024-01-29 17 55 30" src="https://github.com/farukkamcici/WeatherAppDjango/assets/153227378/015d8a53-4c60-4105-a6a2-1ff0e65fbfcb">
+<img width="1470" alt="Ekran Resmi 2024-01-29 17 56 24" src="https://github.com/farukkamcici/WeatherAppDjango/assets/153227378/8d3f60f9-6417-46e7-aec3-228301d0d6a3">
+<img width="1470" alt="Ekran Resmi 2024-01-29 17 55 48" src="https://github.com/farukkamcici/WeatherAppDjango/assets/153227378/3e39c2e3-92ab-4078-9600-f866a526b01f">
+<img width="1470" alt="Ekran Resmi 2024-01-29 17 56 34" src="https://github.com/farukkamcici/WeatherAppDjango/assets/153227378/9e8033b0-a0bb-4b35-a908-4545d6507df7">
+
 
 ## Description
+
 
 This web-based weather application allows users to check real-time weather information for their selected cities.
 
